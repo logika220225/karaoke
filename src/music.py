@@ -4,6 +4,7 @@ import pygame
 import os
 import time
 
+FILEPATH = "assets\music\music.mp3"
 fs = 44100
 seconds = 3
 
@@ -32,3 +33,18 @@ def play_sound(filepath):
     if os.path.exists(filepath):
         os.remove(filepath)
         print(f"Файл {filepath} успешно удален.")
+
+
+def play_music(filepath=FILEPATH, wait=False):
+    pygame.mixer.init()
+    music = pygame.mixer.Sound(filepath)
+    channel = pygame.mixer.Channel(1)
+    channel.play(music, -1)
+    if wait:
+        while channel.get_busy():
+            time.sleep(0.1)
+
+    return channel
+
+
+play_music(wait=True)
